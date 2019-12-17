@@ -1,0 +1,43 @@
+version: '3.7'
+services:
+  logstash:
+    image: logstash:7.3.2
+    restart: "always"
+    container_name: logstash
+    volumes:
+      - /home/docker/logstash-beta/conf.d/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - /home/docker/logstash-beta/logstash.yml:/etc/logstash/logstash.yml
+      - /home/docker/logstash-beta/data:/tmp
+    ports:
+      - "5044:5044/tcp"
+    environment:
+     - LS_JAVA_OPTS=-Xmx512m -Xms512m
+     - xpack.monitoring.enabled=false
+
+  logstash-prod:
+    image: logstash:7.3.2
+    restart: "always"
+    container_name: logstash-prod
+    volumes:
+      - /home/docker/logstash-prod/conf.d/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - /home/docker/logstash-prod/logstash.yml:/etc/logstash/logstash.yml
+      - /home/docker/logstash-prod/data:/tmp
+    ports:
+      - "5040:5040/tcp"
+    environment:
+     - LS_JAVA_OPTS=-Xmx512m -Xms512m
+     - xpack.monitoring.enabled=false
+
+  logstash-other:
+    image: logstash:7.3.2
+    restart: "always"
+    container_name: logstash-other
+    volumes:
+      - /home/docker/logstash-other/conf.d/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - /home/docker/logstash-other/logstash.yml:/etc/logstash/logstash.yml
+      - /home/docker/logstash-other/data:/tmp
+    ports:
+      - "5042:5042/tcp"
+    environment:
+     - LS_JAVA_OPTS=-Xmx512m -Xms512m
+     - xpack.monitoring.enabled=false
